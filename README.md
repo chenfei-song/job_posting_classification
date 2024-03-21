@@ -86,3 +86,7 @@ Experiment multilingual pre-trained model ('paraphrase-xlm-r-multilingual-v1') i
 - Embed into existing infrastructure and modules
 - Save category embedding into vector store for faster inference
 - Schedule model retraining for new job categories or data shift
+
+# Appedix
+Occupation taxonomy link: [https://www.onetcenter.org/taxonomy/2019/data_coll.html](url)
+report link: [https://docs.google.com/document/d/1O986NNo2-gM9TsnF-ZxULFFwcnTgtaj4pjOPNmcntFQ/edit?usp=sharing](url)
