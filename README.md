@@ -13,6 +13,8 @@ Build an advanced classification model that ingests job postings and predicts to
 # Approach
 ## Workflow
 
+![workflow](https://github.com/chenfei-song/job_posting_classification/assets/22181694/8300237a-54d1-44ed-a3e6-49c56a47536d)
+
 ## Key Assumptions 
 - Categories in the sample set are the full category set
 - Categories are correctly labeled
@@ -25,6 +27,9 @@ Build an advanced classification model that ingests job postings and predicts to
 ### Contrastive Loss
 - Poor margin and lacking robustness of cross-entropy loss (800+ classes)
 - Contrastive loss focuses on hard negatives and inherently compare cosine similarities
+![contrastive_loss1](https://github.com/chenfei-song/job_posting_classification/assets/22181694/5db51f36-27a5-416d-855d-8d441ad2a9ac)
+![contrastive_loss2](https://github.com/chenfei-song/job_posting_classification/assets/22181694/f7f2ccac-d0ac-4778-98da-d46f557a0ec6)
+
 
 ## Metrics
 - Performance-based
@@ -53,6 +58,7 @@ Use Fine-tuned category embedding model to generate category embedding
 Final prediction is based on cosine similarity and KNN of title embedding and category embeddings
 
 ## Code Architecture
+![code_architecture](https://github.com/chenfei-song/job_posting_classification/assets/22181694/926d096f-a318-4352-8fd7-5caabdf7d71a)
 
 # Next Steps
 Depending on business priorities and resource optimization, potential next steps could include:
