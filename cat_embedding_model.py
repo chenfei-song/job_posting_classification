@@ -10,6 +10,11 @@ from sentence_transformers import SentenceTransformer
 
 class TextDataset(Dataset):
     def __init__(self, texts, categories):
+        """
+        Args:
+            texts (list): List of text inputs.
+            categories (list): List of category labels.
+        """
         self.texts = texts
         self.categories = categories
 
@@ -17,7 +22,15 @@ class TextDataset(Dataset):
         return len(self.texts)
 
     def __getitem__(self, idx):
+        """
+        Returns a tuple of text input and corresponding category label.
 
+        Args:
+            idx (int): Index of the sample.
+
+        Returns:
+            tuple: Tuple containing text input and category label.
+        """
         if self.categories is not None:
             return self.texts[idx], torch.tensor(self.categories[idx])
         else:
@@ -25,11 +38,26 @@ class TextDataset(Dataset):
         
 class ContrastiveLoss(nn.Module):
     def __init__(self, margin=0.2, hard_negative=True):
+        """
+        Args:
+            margin (float): Margin value for the contrastive loss.
+            hard_negative (bool): Whether to use hard negative mining.
+        """
         super(ContrastiveLoss, self).__init__()
         self.margin = margin
         self.hard_negative = hard_negative
 
     def forward(self, similarities, categories):
+        """
+        Computes the contrastive loss.
+
+        Args:
+            similarities (torch.Tensor): Tensor of cosine similarities.
+            categories (torch.Tensor): Tensor of category labels.
+
+        Returns:
+            torch.Tensor: Contrastive loss.
+        """
         batch_size = categories.size(0)
 
         # Create a binary matrix where entry (i, j) is 1 if categories[i] == j else 0
@@ -58,6 +86,12 @@ class ContrastiveLoss(nn.Module):
 
 class CategoryEmbeddingModel(nn.Module):
     def __init__(self, sbert_model_name, num_category, freeze_sbert=True):
+        """
+        Args:
+            sbert_model_name (str): Name of the SentenceTransformer model.
+            num_category (int): Number of categories.
+            freeze_sbert (bool): Whether to freeze the SBERT model parameters.
+        """
         super(CategoryEmbeddingModel, self).__init__()
 
         self.sbert_model = SentenceTransformer(sbert_model_name)
@@ -73,6 +107,16 @@ class CategoryEmbeddingModel(nn.Module):
         self.loss_fn = ContrastiveLoss()
 
     def forward(self, text_inputs, categories=None):
+        """
+        Forward pass of the model.
+
+        Args:
+            text_inputs (torch.Tensor): Tensor of text inputs.
+            categories (torch.Tensor): Tensor of category labels.
+
+        Returns:
+            tuple: Tuple containing predicted categories and loss (if categories is not None).
+        """
         # Generate embeddings for the input texts using the SBERT model
         text_embeddings = self.sbert_model.encode(text_inputs, convert_to_tensor=True)
         text_embeddings = self.dropout(text_embeddings)
@@ -91,8 +135,24 @@ class CategoryEmbeddingModel(nn.Module):
             return predicted_categories, None
 
 def train_model(model, train_texts, train_categories, val_texts, val_categories, epochs, learning_rate, batch_size, device):
+    """
+    Trains the model.
+
+    Args:
+        model (nn.Module): Model to train.
+        train_texts (list): List of training text inputs.
+        train_categories (list): List of training category labels.
+        val_texts (list): List of validation text inputs.
+        val_categories (list): List of validation category labels.
+        epochs (int): Number of epochs for training.
+        learning_rate (float): Learning rate for optimization.
+        batch_size (int): Batch size for training.
+        device (str): Device to use for training (e.g., 'cpu', 'cuda').
+
+    Returns:
+        tuple: Tuple containing lists of training losses, validation losses, training accuracy, validation accuracy
+    """
     # Move the model to the specified device
-    
     model.to(device)
 
     # Define the optimizer

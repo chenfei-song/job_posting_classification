@@ -1,21 +1,24 @@
 from sklearn.neighbors import NearestNeighbors
 import text_utils
 
-def predict(test_df, model, category_embeddings, category_dict, col = 'TITLE', topn=5):
+def predict(df, model, category_embeddings, category_dict, col = 'TITLE', topn=5):
     """
-    For each sample in `embeddings`, find the `topn` closest categories based on the cosine similarity
-    to the `category_embeddings`.
+    Predict the top 'topn' closest categories for each sample text in the DataFrame 'df' based on cosine similarity
+    to the category embeddings.
 
     Args:
-        text_embeddings (numpy.ndarray): Embeddings of the sample texts for which to find closest categories.
-        category_embeddings (numpy.ndarray): The embeddings of the categories.
-        categories (list): The categories corresponding to the `category_embeddings`.
-        topn (int): The number of nearest neighbors to find.
+        df (pandas.DataFrame): DataFrame containing the sample texts.
+        model: Model used to generate embeddings for the sample texts.
+        category_embeddings (numpy.ndarray): Embeddings of the categories.
+        category_dict (dict): Dictionary mapping category indices to category names.
+        col (str): Name of the column in the DataFrame containing the sample texts.
+        topn (int): Number of nearest neighbors to find.
 
     Returns:
-        list of lists: A list where each element is a list of the `topn` closest categories for each sample.
+        list of lists: A list where each element is a list of the 'topn' closest categories for each sample text.
     """
-    text_embeddings = text_utils.gen_feature_embedding(test_df, model = model, col = col)
+    # Generate embeddings for the input dataframe's column
+    text_embeddings = text_utils.gen_feature_embedding(df, model = model, col = col)
     
     # Initialize a NearestNeighbors model using cosine similarity
     nn = NearestNeighbors(n_neighbors=topn, metric='cosine', algorithm='brute')

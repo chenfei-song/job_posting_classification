@@ -41,7 +41,7 @@ def main():
     full_train_df, full_train_categories = utils.separate_target(full_train_data)
     train_df, train_categories = utils.separate_target(train_data, target_col = 'ONET_ID')
     val_df, val_categories = utils.separate_target(val_data, target_col = 'ONET_ID')
-    test_df, test_categories = utils.separate_target(test_data)
+    test_df, test_categories = utils.separate_target(test_data, target_col = 'ONET_ID')
     logger.info("Data splitted!")
     
     num_categories =  len(np.unique(df[MiscParams.target_col]))
@@ -75,7 +75,7 @@ def main():
 
     logger.info("Prediction finished!")
     logger.info(f"Prediction time: {pred_end_time - pred_start_time:.2f} seconds")
-    acc = evaluator.calculate_topn_accuracy(test_categories, pred_categories, n=5)
+    pred_acc = evaluator.calculate_topn_accuracy(test_categories, pred_categories, n=5)
     
     ############ Experimentation code
     logger.info("\n ================================== \n")

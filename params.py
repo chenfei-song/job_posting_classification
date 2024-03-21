@@ -22,7 +22,7 @@ class EmbedParams:
 
 @dataclass
 class CatEmbedModelParams:
-    epochs = 3
+    epochs = 5
     learning_rate = 5e-3
-    batch_size = 128
+    batch_size = 32
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")

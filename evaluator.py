@@ -2,24 +2,38 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 def gen_train_val_viz(train_losses, val_losses, train_accs, val_accs):
+    """
+    Generate training and validation visualization.
+
+    Args:
+        train_losses (list): List of training losses.
+        val_losses (list): List of validation losses.
+        train_accs (list): List of training accuracies.
+        val_accs (list): List of validation accuracies.
+    """
+    # Create subplots for losses and accuracies
+    fig, axs = plt.subplots(1, 2, figsize=(10, 4))
+
     # Plot the training and validation losses
-    plt.figure(figsize=(10, 5))
-    plt.plot(train_losses, label='Training loss')
-    plt.plot(val_losses, label='Validation loss')
-    plt.title('Losses over time')
-    plt.xlabel('Epochs')
-    plt.ylabel('Loss')
-    plt.legend()
-    plt.show()
+    axs[0].plot(train_losses, label='Training loss')
+    axs[0].plot(val_losses, label='Validation loss')
+    axs[0].set_title('Loss over time')
+    axs[0].set_xlabel('Epochs')
+    axs[0].set_ylabel('Loss')
+    axs[0].legend()
 
     # Plot the training and validation accuracies
-    plt.figure(figsize=(10, 5))
-    plt.plot(train_accs, label='Training accuracy')
-    plt.plot(val_accs, label='Validation accuracy')
-    plt.title('Accuracies over time')
-    plt.xlabel('Epochs')
-    plt.ylabel('Accuracy')
-    plt.legend()
+    axs[1].plot(train_accs, label='Training accuracy')
+    axs[1].plot(val_accs, label='Validation accuracy')
+    axs[1].set_title('Accuracy over time')
+    axs[1].set_xlabel('Epochs')
+    axs[1].set_ylabel('Accuracy')
+    axs[1].legend()
+
+    # Adjust layout to prevent overlap
+    plt.tight_layout()
+
+    # Show the plots
     plt.show()
 
 def calculate_topn_accuracy(true_categories, topn_pred_categories, n):
@@ -32,7 +46,7 @@ def calculate_topn_accuracy(true_categories, topn_pred_categories, n):
         n (int): Value of N for top-N predictions (e.g., 1, 3, 5).
 
     Returns:
-        list: Top-N prediction accuracy for range 1 to N.
+        list: Top-N prediction accuracy from range 1 to N.
     """
     total_samples = len(true_categories)
     acc_list = []
